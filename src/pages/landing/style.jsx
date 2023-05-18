@@ -136,7 +136,7 @@ export const ResultBox = styled.div`
     }
     
     div:nth-child(1){
-        background-color: skyblue;
+        
     }
 
     div:nth-child(2){

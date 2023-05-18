@@ -1,5 +1,6 @@
 import { BodyDiv, Title, ResultBox, Comment } from "./style";
 import useInput from "../../hooks/useInput";
+import { useState, useEffect } from "react";
 function Body() {
     
     // 변수값들
@@ -11,6 +12,115 @@ function Body() {
     const [ fouls, onChangeFouls, setFouls ] = useInput(0);
     const [ yellowCards, onChangeYellowCards, setYellowCards ] = useInput(0);
     const [ redCards, onChangeRedCards, setRedCards ] = useInput(0);
+
+    const isWin = (homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) => {
+        // beta 값들(승 / 무승)
+        const b0 = 0
+        const b1 = 0;
+        const b2 = 0;
+        const b3 = 0;
+        const b4 = 0;
+        const b5 = 0;
+        const b6 = 0;
+        const b7 = 0;
+        const b8 = 0;
+        
+        // k (기준점)
+        const k = 0;
+        // y
+        const y = b0 + homeAway * b1 + goals * b2 + shoots * b3 + shootsOnTarget * b4 + coners * b5 + fouls * b6 + yellowCards * b7 + redCards * b8;
+
+        // y가 기준점을 넘거나 같으면
+        if (y >= k){
+            // 성공
+            return true
+        }
+        // 못넘으면
+        else{
+            return false
+        }
+    }
+    const isDraw = (homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) => {
+        // beta 값들(무 / 패)
+        const b0 = 0;
+        const b1 = 0;
+        const b2 = 0;
+        const b3 = 0;
+        const b4 = 0;
+        const b5 = 0;
+        const b6 = 0;
+        const b7 = 0;
+        const b8 = 0;
+        
+        // k (기준점)
+        const k = 0;
+        // y
+        const y = b0 + homeAway * b1 + goals * b2 + shoots * b3 + shootsOnTarget * b4 + coners * b5 + fouls * b6 + yellowCards * b7 + redCards * b8;
+        
+        // y가 기준점을 넘거나 같으면
+        if (y >= k){
+            // 성공
+            return true
+        }
+        // 못넘으면
+        else{
+            return false
+        }
+    }
+
+    // win, draw, lose, comment
+    const [ win, setWin ] = useState('');
+    const [ draw, setDraw ] = useState('');
+    const [ lose, setLose ] = useState('');
+    const [ comment, setComment ] = useState('');
+
+    const findWin = () => {
+        const target = document.getElementById('win');
+        setWin(target);
+    };
+
+    const findDraw = () => {
+        const target = document.getElementById('draw');
+        setDraw(target);
+    };
+    const findLose = () => {
+        const target = document.getElementById('lose');
+        setLose(target);  
+    };
+    const findComment = () => {
+        const target = document.getElementById('comment');
+        setComment(target);  
+    };
+
+    useEffect(() => {
+        findWin();
+        findDraw();
+        findLose();
+        findComment();
+    }, []);
+
+    // 예측치
+    // 승리 시
+    if (isWin(homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) && win) {
+        win.style.backgroundColor = 'skyblue';
+        win.style.opacity = '0.7';
+        win.style.color = '#fff';
+        comment.innerText = '후반을 즐겨볼까요?';
+    }
+    // 무승부 시
+    else if(isDraw(homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) && draw){
+        draw.style.backgroundColor = 'yellow';
+        draw.style.opacity = '0.7';
+        draw.style.color = '#000';
+        comment.innerText = '아슬아슬하나 볼 가치 있음';
+    }
+    // 패배 시
+    else if(lose){
+        lose.style.backgroundColor = 'red';
+        lose.style.opacity = '0.7';
+        lose.style.color = '#fff';
+        comment.innerText = '자라..';
+    }
 
     return (
         <BodyDiv>
@@ -61,14 +171,12 @@ function Body() {
             </form>
 
             <ResultBox>
-                <div>승리</div>
-                <div>무승부</div>
-                <div>패배</div>
+                <div id="win">승리</div>
+                <div id="draw">무승부</div>
+                <div id="lose">패배</div>
             </ResultBox>
 
-            <Comment>
-                꿀잠 주무십시오!
-            </Comment>
+            <Comment id="comment"></Comment>
         </BodyDiv>
     )
 }
