@@ -146,6 +146,21 @@ export const ResultBox = styled.div`
     div:nth-child(3){
 
     }
+
+    .win{
+        background-color: skyblue;
+        color:#fff;
+    }
+
+    .draw{
+        background-color: yellow;
+        color:#fff;
+    }
+
+    .lose{
+        background-color: red;
+        color:#fff;
+    }
 `
 
 export const Comment = styled.p`

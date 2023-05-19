@@ -102,24 +102,24 @@ function Body() {
     // 예측치
     // 승리 시
     if (isWin(homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) && win) {
-        win.style.backgroundColor = 'skyblue';
-        win.style.opacity = '0.7';
-        win.style.color = '#fff';
-        comment.innerText = '후반을 즐겨볼까요?';
+        win.className = 'win';
+        draw.className = '';
+        lose.className = '';
+        comment.innerText = '후반전을 즐겨볼까요?';
     }
     // 무승부 시
     else if(isDraw(homeAway, goals, shoots, shootsOnTarget, coners, fouls, yellowCards, redCards) && draw){
-        draw.style.backgroundColor = 'yellow';
-        draw.style.opacity = '0.7';
-        draw.style.color = '#000';
-        comment.innerText = '아슬아슬하나 볼 가치 있음';
+        draw.className = 'draw';
+        win.className = '';
+        lose.className = '';
+        comment.innerText = '졸리면 주무셔도..';
     }
     // 패배 시
     else if(lose){
-        lose.style.backgroundColor = 'red';
-        lose.style.opacity = '0.7';
-        lose.style.color = '#fff';
-        comment.innerText = '자라..';
+        lose.className = 'lose';
+        win.className = '';
+        draw.className = '';
+        comment.innerText = '자라';
     }
 
     return (
@@ -135,7 +135,7 @@ function Body() {
             <form>
                 <p>
                     <select onChange={onChangeHomeAway}>
-                        <option value="#">Home Away 선택</option>
+                        <option value="">Home Away 선택</option>
                         <option value="1">Home</option>
                         <option value="0">Away</option>
                     </select>
