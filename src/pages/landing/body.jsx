@@ -32,7 +32,7 @@ function Body() {
 
         // y가 기준점을 넘거나 같으면
         if (y >= k){
-            // 성공
+            // 승리
             return true
         }
         // 못넘으면
@@ -59,7 +59,7 @@ function Body() {
         
         // y가 기준점을 넘거나 같으면
         if (y >= k){
-            // 성공
+            // 무승부
             return true
         }
         // 못넘으면
