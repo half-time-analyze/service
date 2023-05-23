@@ -161,6 +161,11 @@ export const ResultBox = styled.div`
         background-color: red;
         color:#fff;
     }
+
+    .initial{
+
+    }
+    
 `
 
 export const Comment = styled.p`
