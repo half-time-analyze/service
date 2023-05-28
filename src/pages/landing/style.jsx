@@ -154,7 +154,7 @@ export const ResultBox = styled.div`
 
     .draw{
         background-color: yellow;
-        color:#fff;
+        color:#000;
     }
 
     .lose{

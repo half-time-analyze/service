@@ -128,21 +128,21 @@ function Body() {
         win.className = 'initial';
         draw.className = 'initial';
         lose.className = 'lose';
-        comment.innerText = '패배';
+        comment.innerText = '주무시는게 정신건강에 좋을듯 합니다';
     }
     // 승리 시
     else if(isWin(homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) && win){
         draw.className = 'initial';
         win.className = 'win';
         lose.className = 'initial';
-        comment.innerText = '승리';
+        comment.innerText = '후반을 즐겨볼까요?';
     }
     // 무승부 시
     else if(draw){
         lose.className = 'initial';
         win.className = 'initial';
         draw.className = 'draw';
-        comment.innerText = '무승부';
+        comment.innerText = '졸리면 주무셔도...';
     }
 
     // 초기 설정
