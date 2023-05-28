@@ -20,68 +20,71 @@ function Body() {
         return (e**y) / (1 + (e**y))
     }
 
-    // win-nonwin 판단
-    const isWin = (homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) => {
+    // lose-nonLose
+    const isLose = (homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) => {
         
-        // beta 값들(승 / 무승)
-        const b = -0.59;
-        const bHomeAway = 0.2881;
-        const bGoals = 1.1128;
-        const bShoots = 0.0754;
-        const bShootsOnTarget = -0.0095;
-        const bBallPossession = 0.7155;
-        const bConers = 0.1263;
-        const bFouls = 0.1507;
-        const bYellowCards = -0.4175;
-        const bRedCards = -0.1675;
+        // beta 값들(패 / 무패)
+        const b = -2.24113704;
+        const bHomeAway = 0.31626115;
+        const bGoals = 0.92939801;
+        const bShoots = 0.11244771;
+        const bShootsOnTarget = -0.05462963;
+        const bBallPossession = 0.03047337;
+        const bConers = 0.06590369;
+        const bFouls = 0.01557806;
+        const bYellowCards = -0.0775908;
+        const bRedCards = -0.8105;
         
         // y
-        const y = b + homeAway * bHomeAway + goals * bGoals + shoots * bShoots + shootsOnTarget * bShootsOnTarget + (ballPossession - 50) * bBallPossession + coners * bConers + fouls * bFouls + yellowCards * bYellowCards + redCards * bRedCards;
+        const y = b + homeAway * bHomeAway + goals * bGoals + shoots * bShoots + shootsOnTarget * bShootsOnTarget + ballPossession * bBallPossession + coners * bConers + fouls * bFouls + yellowCards * bYellowCards + redCards * bRedCards;
         
         // s
         const s = get_s(y);
 
-        // s가 0.5를 넘기면
-        if (s >= 0.5){
-            console.log(`승리 ${s}`);
-            // 승리
+        // s가 0.5를 못 넘기면
+        if (s < 0.5){
+            console.log(`패 ${s}`);
+            // lose
             return true
         }
-        // 못넘으면
+        // s가 0.5를 넘으면
         else{
+            // nonlose
             return false
         }
     }
 
-    // draw-lose 판단
-    const isDraw = (homeAway, goals, shoots, shootsOnTarget, ballPossession,  coners, fouls, yellowCards, redCards) => {
+    // win-draw 판단
+    const isWin = (homeAway, goals, shoots, shootsOnTarget, ballPossession,  coners, fouls, yellowCards, redCards) => {
         
-        // beta 값들(무 / 패)
-        const b = -0.71330266;
-        const bHomeAway = 0.3265;
-        const bGoals = 0.3745;
-        const bShoots = 0.3210;
-        const bShootsOnTarget = -0.1027;
-        const bBallPossession = 0.3585;
-        const bConers = -0.0431;
-        const bFouls = 	-0.0727;
-        const bYellowCards = 0.2767;
-        const bRedCards = -0.2239;
+        // beta 값들(승 / 무)
+        const b = -1.40316245;
+        const bHomeAway = 0.20682411;
+        const bGoals = 1.34115998;
+        const bShoots = 0.00690114;
+        const bShootsOnTarget =  -0.19914884;
+        const bBallPossession = 0.01611161;
+        const bConers = 0.1495746;
+        const bFouls = 	0.11146582;
+        const bYellowCards = -0.82376688;
+        const bRedCards = -0.12900036;
 
         // y
-        const y = b + homeAway * bHomeAway + goals * bGoals + shoots * bShoots + shootsOnTarget * bShootsOnTarget + (ballPossession - 50)* bBallPossession + coners * bConers + fouls * bFouls + yellowCards * bYellowCards + redCards * bRedCards;
+        const y = b + homeAway * bHomeAway + goals * bGoals + shoots * bShoots + shootsOnTarget * bShootsOnTarget + ballPossession * bBallPossession + coners * bConers + fouls * bFouls + yellowCards * bYellowCards + redCards * bRedCards;
         
         // s
         const s = get_s(y);
 
+        // s 값이 0.5를 넘으면
         if (s >= 0.5){
-            console.log(`무승부 ${s}`);
-            // 무승부
+            console.log(`승 ${s}`);
+            // win
             return true
         }
         // 못넘으면
         else{
-            console.log(`패 ${s}`);
+            console.log(`무 ${s}`);
+            // draw
             return false
         }
     }
@@ -120,26 +123,26 @@ function Body() {
     }, []);
 
     // 예측치
-    // 승리 시
-    if (isWin(homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) && win) {
-        win.className = 'win';
+    // 패배 시
+    if (isLose(homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) && lose) {
+        win.className = 'initial';
         draw.className = 'initial';
+        lose.className = 'lose';
+        comment.innerText = '패배';
+    }
+    // 승리 시
+    else if(isWin(homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) && win){
+        draw.className = 'initial';
+        win.className = 'win';
         lose.className = 'initial';
-        comment.innerText = '후반전을 즐겨볼까요?';
+        comment.innerText = '승리';
     }
     // 무승부 시
-    else if(isDraw(homeAway, goals, shoots, shootsOnTarget, ballPossession, coners, fouls, yellowCards, redCards) && draw){
-        draw.className = 'draw';
-        win.className = 'initial';
+    else if(draw){
         lose.className = 'initial';
-        comment.innerText = '졸리면 주무셔도..';
-    }
-    // 패배 시
-    else if(lose){
-        lose.className = 'lose';
         win.className = 'initial';
-        draw.className = 'initial';
-        comment.innerText = '자라';
+        draw.className = 'draw';
+        comment.innerText = '무승부';
     }
 
     // 초기 설정
